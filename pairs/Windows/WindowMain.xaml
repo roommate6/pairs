@@ -1,0 +1,215 @@
+﻿<Window x:Class="pairs.WindowMain"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:pairs"
+        xmlns:classes="clr-namespace:pairs.Classes"
+        mc:Ignorable="d"
+        Title="Sign in" Height="618" Width="1000"
+        ResizeMode="CanMinimize"
+        Closing="Window_Closing">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyleForArrows" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <!--<Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>-->
+                            <!--<Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>-->
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <classes:ViewModelSignIn/>
+    </Window.DataContext>
+
+    <DockPanel Background="Gray">
+        <!--Header-->
+        <WrapPanel HorizontalAlignment="Center" Name="mainTop" DockPanel.Dock="Top" Height="90" Background="Gray">
+            <TextBlock Foreground="White" FontSize="65" FontFamily="Kristen ITC">
+                Welcome to pairs!
+            </TextBlock>
+        </WrapPanel>
+
+        <!--Footer-->
+        <Grid Name="mainBottom" DockPanel.Dock="Bottom" Height="70">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <WrapPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Name="ButtonDelete" Width="70" Margin="10" Click="ButtonDelete_Click" Height="30" IsEnabled="{Binding ExistsSelection}">
+                    <Button.Content>
+                        <TextBlock FontSize="18">
+                            Delete
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
+                <Button Name="ButtonPlay" Width="170" Margin="10" Click="ButtonPlay_Click" Height="30" IsEnabled="{Binding ExistsSelection}">
+                    <Button.Content>
+                        <TextBlock FontSize="18">
+                            Play
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
+                <Button Name="ButtonExit" Width="70" Margin="10" Click="ButtonExit_Click" Height="30">
+                    <Button.Content>
+                        <TextBlock FontSize="18">
+                            Exit
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
+            </WrapPanel>
+            
+            <Button VerticalAlignment="Center" Grid.Column="2" Name="About" MouseEnter="About_MouseEnter" MouseLeave="About_MouseLeave" PreviewMouseDown="About_PreviewMouseDown" PreviewMouseUp="About_PreviewMouseUp" Click="About_Click" Height="40" Width="40" Background="Transparent" BorderThickness="0" Style="{StaticResource ButtonStyleForArrows}">
+                <Button.Content>
+                    <Image Source="{Binding AboutDecoration.Source}"/>
+                </Button.Content>
+            </Button>
+        </Grid>
+
+        <!--Content-->
+        <Grid Name="mainMid" Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Login-->
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Height="300">
+                <TextBlock HorizontalAlignment="Center" FontSize="24" FontWeight="ExtraLight">
+                    ADD A NEW USER
+                </TextBlock>
+                <Border BorderBrush="PaleVioletRed" CornerRadius="0.4,0.4,0.4,0.4" BorderThickness="0,1,0,1" Margin="12,10,12,0"/>
+                <StackPanel Height="190">
+                    <WrapPanel Margin="10,10,10,10" HorizontalAlignment="Center">
+                        <TextBlock Text="USERNAME:" Width="90" FontSize="21" FontFamily="Bebas"/>
+                        <TextBox Name="textBoxUsername" Width="128" Text="{Binding DummyUser.Username}"/>
+                    </WrapPanel>
+                    <WrapPanel Margin="10,0,10,10" HorizontalAlignment="Center">
+                        <TextBlock Text="PASSWORD:" Width="90" FontSize="21" FontFamily="Bebas"/>
+                        <TextBox Name="textBoxPassword" Width="128" Text="{Binding DummyUser.Password}"/>
+                    </WrapPanel>
+                    <WrapPanel Margin="10,0,10,10" HorizontalAlignment="Center">
+                        <TextBlock Text="AVATAR:" VerticalAlignment="Center" Width="90" FontSize="21" FontFamily="Bebas"/>
+                        <Button Name="ButtonAvatar" Width="93" Height="93" Margin="0,0,5,0" Click="ButtonAvatar_Click">
+                            <Button.Content>
+                                <Image Source="{Binding DummyUser.Avatar.Source}"/>
+                            </Button.Content>
+                            <Button.Background>
+                                LightGray
+                            </Button.Background>
+                            <Button.BorderThickness>2</Button.BorderThickness>
+                            <Button.BorderBrush>PaleVioletRed</Button.BorderBrush>
+                        </Button>
+                        <Button Name="ButtonRandomizeAvatar" Width="30" Height="30" Margin="0,0,0,0" VerticalAlignment="Bottom" Click="ButtonRandomizeAvatar_Click">
+                            <Button.Content>
+                                <Image Source="{Binding RandomizeAvatarButtonDecoration.Source}"/>
+                            </Button.Content>
+                            <Button.Background>
+                                LightGray
+                            </Button.Background>
+                            <Button.BorderThickness>2</Button.BorderThickness>
+                            <Button.BorderBrush>PaleVioletRed</Button.BorderBrush>
+                        </Button>
+                    </WrapPanel>
+                </StackPanel>
+                <Border BorderBrush="PaleVioletRed" CornerRadius="0.4,0.4,0.4,0.4" BorderThickness="0,1,0,1" Margin="12,0,12,10"/>
+
+                <Button Name="ButtonAdd" Width="218" HorizontalAlignment="Center" Margin="10,0,10,10" Click="ButtonAdd_Click" Height="30">
+                    <Button.Content>
+                        <TextBlock FontSize="21" FontFamily="Bebas">
+                            ADD
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Name="mainMidRight" Grid.Column="1" VerticalAlignment="Center" Height="300">
+                <TextBlock HorizontalAlignment="Center" Text="SELECT A USER" FontSize="24" FontWeight="ExtraLight"/>
+                <ListBox Name="ListBoxUsers"  Margin="10,10,10,0" ItemsSource="{Binding Users}" Background="LightGray" BorderBrush="PaleVioletRed" BorderThickness="2" DisplayMemberPath="Username" Height="194" Width="200" HorizontalAlignment="Center" SelectionChanged="ListBoxUsers_SelectionChanged"/>
+                <WrapPanel Margin="0,10,0,0" HorizontalAlignment="Center">
+                    <Button Name="UserSelectorButtonDown" Click="UserSelectorButtonDown_Click" PreviewMouseLeftButtonDown="UserSelectorButtonDown_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="UserSelectorButtonDown_PreviewMouseLeftButtonUp" MouseEnter="UserSelectorButtonDown_MouseEnter" MouseLeave="UserSelectorButtonDown_MouseLeave" Style="{DynamicResource ButtonStyleForArrows}" Margin="0,0,40,0" Width="30" Height="30" BorderThickness="0" Background="Transparent">
+                        <Button.Content>
+                            <Image Source="{Binding UserSelectorDownDecoration.Source}"/>
+                        </Button.Content>
+                    </Button>
+                    <Button Name="UserSelectorButtonUp" Click="UserSelectorButtonUp_Click" PreviewMouseLeftButtonDown="UserSelectorButtonUp_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="UserSelectorButtonUp_PreviewMouseLeftButtonUp" MouseEnter="UserSelectorButtonUp_MouseEnter" MouseLeave="UserSelectorButtonUp_MouseLeave" Margin="40,0,0,0" Width="30" Height="30" BorderThickness="0" Background="Transparent" Style="{DynamicResource ButtonStyleForArrows}">
+                        <Button.Content>
+                            <Image Source="{Binding UserSelectorUpDecoration.Source}"/>
+                        </Button.Content>
+                    </Button>
+                </WrapPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" VerticalAlignment="Center" Height="300">
+                <TextBlock HorizontalAlignment="Center" FontSize="24" FontWeight="ExtraLight">
+                    SELECTED USER
+                </TextBlock>
+                <Border BorderBrush="PaleVioletRed" CornerRadius="0.4,0.4,0.4,0.4" BorderThickness="0,1,0,1" Margin="12,10,12,0"/>
+                <StackPanel Height="190">
+                    <Image Width="190" Source="{Binding SelectedUser.Avatar.Source}"/>
+                </StackPanel>
+                <Border BorderBrush="PaleVioletRed" CornerRadius="0.4,0.4,0.4,0.4" BorderThickness="0,1,0,1" Margin="12,0,12,10"/>
+                <Button Name="ButtonSettingsForSelectedUser" Click="ButtonSettingsForSelectedUser_Click" Width="218" IsEnabled="{Binding ExistsSelection}" HorizontalAlignment="Center" Margin="10,0,10,10" Height="30">
+                    <Button.Content>
+                        <TextBlock FontSize="21" FontFamily="Bebas">
+                            SETTINGS
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>

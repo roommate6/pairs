@@ -1,0 +1,50 @@
+﻿<Window x:Class="pairs.Windows.WindowGame"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:pairs"
+        xmlns:classes="clr-namespace:pairs.Classes"
+        mc:Ignorable="d"
+        Title="Game" Height="835" Width="835"
+        ResizeMode="CanMinimize"
+        Closing="Window_Closing">
+
+    <DockPanel Background="Honeydew">
+        <DockPanel Height="90" DockPanel.Dock="Top">
+            <Border DockPanel.Dock="Top" BorderBrush="Black" BorderThickness="0,2,0,2" Margin="0,0,0,0"/>
+            <Border DockPanel.Dock="Bottom" BorderBrush="Black" CornerRadius="380,380,0,0" BorderThickness="0,2,0,2" Margin="90,0,90,0"/>
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label Width="200" Margin="0,0,0,0" HorizontalContentAlignment="Left" Content="{Binding Game.CurrentLevelIndex}" ContentStringFormat="Level: {0}"/>
+                <Label Width="200" HorizontalContentAlignment="Center" Content="{Binding Game.CurrentLevelSecondsLeft}" ContentStringFormat="Seconds remained: {0}"/>
+                <Label Width="170" HorizontalContentAlignment="Right"  Content="{DynamicResource SelectedUserUsername}"/>
+                <Image Width="30" Height="30" Source="{DynamicResource SelectedUserAvatarSource}"/>
+            </WrapPanel>
+        </DockPanel>
+
+        <DockPanel Height="70" DockPanel.Dock="Bottom">
+            <Border DockPanel.Dock="Top" BorderBrush="Black" CornerRadius="0,0,380,380" BorderThickness="0,2,0,2" Margin="90,0,90,0"/>
+            <Border DockPanel.Dock="Bottom" BorderBrush="Black" BorderThickness="0,2,0,2" Margin="0,0,0,0"/>
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Width="60" Name="Back" Click="Back_Click">
+                    <TextBlock FontSize="20" FontWeight="Black">
+                        Back
+                    </TextBlock>
+                </Button>
+                <Button Width="120" Margin="10,0,10,0" Name="SaveGame" Click="SaveGame_Click">
+                    <TextBlock FontSize="20" FontWeight="Black">
+                        Save game
+                    </TextBlock>
+                </Button>
+                <Button Width="60" Name="Exit" Click="Exit_Click">
+                    <TextBlock FontSize="20" FontWeight="Black">
+                        Exit
+                    </TextBlock>
+                </Button>
+            </WrapPanel>
+        </DockPanel>
+        <UniformGrid Name="ButtonsUniformGrid">
+
+        </UniformGrid>
+    </DockPanel>
+</Window>

@@ -1,0 +1,225 @@
+﻿<Window x:Class="pairs.Windows.WindowUserSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:pairs.Windows"
+        xmlns:classes="clr-namespace:pairs.Classes"
+        mc:Ignorable="d"
+        Title="Settings" Height="618" Width="1000"
+        ResizeMode="CanMinimize"
+        Closing="Window_Closing">
+
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyleForBin" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <!--<Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>-->
+                            <!--<Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>-->
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel Background="Gray">
+        <!--Header-->
+        <StackPanel Name="mainTop" DockPanel.Dock="Top" Height="90" Background="Gray">
+            <TextBlock HorizontalAlignment="Center" Foreground="White" FontSize="65" FontFamily="Kristen ITC">
+                Settings.
+            </TextBlock>
+        </StackPanel>
+
+        <!--Footer-->
+        <WrapPanel Name="mainBottom" DockPanel.Dock="Bottom" Height="70" HorizontalAlignment="Center">
+            <Button Name="ButtonBack" Width="70" Margin="10" Click="ButtonBack_Click"  Height="30">
+                <Button.Content>
+                    <TextBlock FontSize="18">
+                            Back
+                    </TextBlock>
+                </Button.Content>
+            </Button>
+        </WrapPanel>
+
+        <!--Content-->
+        <Grid Name="mainMid" Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Login-->
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Height="300">
+                <TextBlock HorizontalAlignment="Center" FontSize="24" FontWeight="ExtraLight">
+                    ACCOUNT DETAILS
+                </TextBlock>
+                <Border BorderBrush="PaleVioletRed" CornerRadius="0.4,0.4,0.4,0.4" BorderThickness="0,1,0,1" Margin="12,10,12,0"/>
+                <StackPanel Height="190">
+                    <WrapPanel Margin="10,10,10,10" HorizontalAlignment="Center">
+                        <TextBlock Text="USERNAME:" Width="90" FontSize="21" FontFamily="Bebas"/>
+                        <TextBox Name="textBoxUsername" Width="128" Text="{Binding DummyUserForSettings.Username, UpdateSourceTrigger=PropertyChanged}"/>
+                    </WrapPanel>
+                    <WrapPanel Margin="10,0,10,10" HorizontalAlignment="Center">
+                        <TextBlock Text="PASSWORD:" Width="90" FontSize="21" FontFamily="Bebas"/>
+                        <TextBox Name="textBoxPassword" Width="128" Text="{Binding DummyUserForSettings.Password, UpdateSourceTrigger=PropertyChanged}"/>
+                    </WrapPanel>
+                    <WrapPanel Margin="10,0,10,10" HorizontalAlignment="Center">
+                        <TextBlock Text="AVATAR:" VerticalAlignment="Center" Width="90" FontSize="21" FontFamily="Bebas"/>
+                        <Button Name="ButtonAvatar" Width="93" Height="93" Margin="0,0,5,0" Click="ButtonAvatar_Click">
+                            <Button.Content>
+                                <Image Source="{Binding DummyUserForSettings.Avatar.Source}"/>
+                            </Button.Content>
+                            <Button.Background>
+                                LightGray
+                            </Button.Background>
+                            <Button.BorderThickness>2</Button.BorderThickness>
+                            <Button.BorderBrush>PaleVioletRed</Button.BorderBrush>
+                        </Button>
+                        <Button Name="ButtonRandomizeAvatar" Width="30" Height="30" Margin="0,0,0,0" VerticalAlignment="Bottom" Click="ButtonRandomizeAvatar_Click">
+                            <Button.Content>
+                                <Image Source="{Binding RandomizeAvatarButtonDecoration.Source}"/>
+                            </Button.Content>
+                            <Button.Background>
+                                LightGray
+                            </Button.Background>
+                            <Button.BorderThickness>2</Button.BorderThickness>
+                            <Button.BorderBrush>PaleVioletRed</Button.BorderBrush>
+                        </Button>
+                    </WrapPanel>
+                </StackPanel>
+                <Border BorderBrush="PaleVioletRed" CornerRadius="0.4,0.4,0.4,0.4" BorderThickness="0,1,0,1" Margin="12,0,12,10"/>
+
+                <Button Name="ButtonModify" Width="218" IsEnabled="{Binding ExistsModifications}" HorizontalAlignment="Center" Margin="10,0,10,10" Click="ButtonModify_Click"  Height="30">
+                    <Button.Content>
+                        <TextBlock FontSize="21" FontFamily="Bebas">
+                            MODIFY
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Name="mainMidRight" Grid.Column="2" VerticalAlignment="Center" Height="300">
+                <TextBlock HorizontalAlignment="Center" Text="SAVED GAMES" FontSize="24" FontWeight="ExtraLight"/>
+                <ListBox Name="ListBoxGames" Margin="10,10,10,0" ItemsSource="{Binding SelectedUser.Games}" Background="LightGray" BorderBrush="PaleVioletRed" BorderThickness="2" DisplayMemberPath="Name" Height="194" Width="200" HorizontalAlignment="Center" SelectionChanged="ListBoxGames_SelectionChanged"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="3" VerticalAlignment="Center" Height="300">
+                <TextBlock HorizontalAlignment="Center" FontSize="24" FontWeight="ExtraLight">
+                    SELECTED GAME
+                </TextBlock>
+                <Border BorderBrush="PaleVioletRed" CornerRadius="0.4,0.4,0.4,0.4" BorderThickness="0,1,0,1" Margin="12,10,12,0"/>
+                <Grid Height="190">
+                    <StackPanel VerticalAlignment="Center">
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,0,0,0">
+                            <Label Content="Name:" Width="75"/>
+                            <Label Margin="10,0,0,0" HorizontalContentAlignment="Center" Width="100" Content="{Binding SelectedGame.Name}"/>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Label Content="Time left:" Width="75"/>
+                            <Label Margin="10,0,0,0" HorizontalContentAlignment="Center" Width="100" Content="{Binding SelectedGame.CurrentLevelSecondsLeft}" ContentStringFormat="{}{0}s"/>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Label Content="Level:" Width="75"/>
+                            <Label Margin="10,0,0,0" HorizontalContentAlignment="Right"  Width="42.5" Content="{Binding SelectedGame.CurrentLevelIndex}"/>
+                            <Label Margin="0,0,0,0" HorizontalContentAlignment="Center" Width="15" Content="/"/>
+                            <Label Margin="0,0,0,0" HorizontalContentAlignment="Left" Width="42.5" Content="{Binding SelectedGame.MaxLevelIndex}"/>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Label Content="Dimensions:" Width="75"/>
+                            <Label Margin="10,0,0,0" HorizontalContentAlignment="Right" Width="42" Content="{Binding SelectedGame.Dimensions.Y}"/>
+                            <Label Margin="0,0,0,0" HorizontalContentAlignment="Center" Width="16" Content="x"/>
+                            <Label Margin="0,0,0,0" HorizontalContentAlignment="Left" Width="42" Content="{Binding SelectedGame.Dimensions.X}"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="PaleVioletRed" CornerRadius="0.4,0.4,0.4,0.4" BorderThickness="0,1,0,1" Margin="12,0,12,10"/>
+                <Button Name="ButtonDelete" IsEnabled="{Binding SelectedGameExists}" Width="218" HorizontalAlignment="Center" Margin="10,0,10,10" Click="ButtonDelete_Click"  Height="30">
+                    <Button.Content>
+                        <TextBlock FontSize="21" FontFamily="Bebas">
+                            DELETE
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Height="300">
+                <TextBlock HorizontalAlignment="Center" FontSize="24" FontWeight="ExtraLight">
+                    STATISTICS
+                </TextBlock>
+                <Border BorderBrush="PaleVioletRed" CornerRadius="0.4,0.4,0.4,0.4" BorderThickness="0,1,0,1" Margin="12,10,12,0"/>
+                <Grid Height="190">
+                    <StackPanel VerticalAlignment="Center">
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,0,0,0">
+                            <Label Content="Wins:" Width="75"/>
+                            <Label Margin="10,0,0,0" HorizontalContentAlignment="Center" Width="100" Content="{Binding SelectedUser.WonGames}"/>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Label Content="Losses:" Width="75"/>
+                            <Label Margin="10,0,0,0" HorizontalContentAlignment="Center"  Width="100" Content="{Binding SelectedUser.LostGames}"/>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <Label Content="Total:" Width="75"/>
+                            <Label Margin="10,0,0,0" HorizontalContentAlignment="Center" Width="100" Content="{Binding SelectedUser.PlayedGames}"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="PaleVioletRed" CornerRadius="0.4,0.4,0.4,0.4" BorderThickness="0,1,0,1" Margin="12,0,12,10"/>
+                <Button Name="ResetStatistics" Width="218" HorizontalAlignment="Center" Margin="10,0,10,10" Click="ResetStatistics_Click"  Height="30">
+                    <Button.Content>
+                        <TextBlock FontSize="21" FontFamily="Bebas">
+                            RESET
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>
